@@ -1,0 +1,4 @@
+rootProject.name = 'CoreBankingApi'
+include 'api'
+include 'business'
+
