@@ -18,9 +18,8 @@ dependencies {
 
 	implementation project(path: ':business')
 
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.skyscreamer:jsonassert:1.5.0')
 }
 
 test {

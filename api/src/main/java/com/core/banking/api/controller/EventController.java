@@ -14,6 +14,6 @@ public class EventController {
     @ResponseStatus(value = CREATED)
     @PostMapping(produces = "application/json")
     public void post() {
-
+        
     }
 }
