@@ -1,14 +1,13 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation project(path: ':business')
-
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testImplementation('org.skyscreamer:jsonassert:1.5.0')
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
-test {
-	useJUnitPlatform()
+dependencies {
+	compile project(':business')
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+	testImplementation('org.skyscreamer:jsonassert:1.5.0')
 }

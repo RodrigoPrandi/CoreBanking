@@ -1,8 +1,10 @@
-package com.core.banking.business.repository;
+package com.core.banking.business;
 
 import com.core.banking.business.model.Account;
 import com.core.banking.business.model.Transaction;
 import com.core.banking.business.model.TransactionType;
+import com.core.banking.business.repository.AccountRepository;
+import com.core.banking.business.repository.TransactionRepository;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,10 +14,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
-
 @DataJpaTest
-public class TransactionRepositoryTest {
+public class EventRepositoryTest {
 
     @Autowired
     private AccountRepository accountRepository;

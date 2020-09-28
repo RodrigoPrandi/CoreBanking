@@ -1,4 +1,3 @@
 rootProject.name = 'CoreBankingApi'
-include 'api'
-include 'business'
+include 'api', 'business'
 

@@ -1,7 +1,8 @@
-package com.core.banking.business.repository;
+package com.core.banking.business;
 
 
 import com.core.banking.business.model.Account;
+import com.core.banking.business.repository.AccountRepository;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
 import org.junit.Before;
