@@ -5,7 +5,7 @@ import com.core.banking.business.model.Account;
 import com.core.banking.business.repository.AccountRepository;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,7 +16,7 @@ public class AccountRepositoryTest {
     @Autowired
     private AccountRepository accountRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         accountRepository.deleteAll();
     }
@@ -25,8 +25,7 @@ public class AccountRepositoryTest {
     public void testFindFistByExternalId() throws Exception {
 
         var externalId = RandomString.make();
-        var account = new Account();
-        account.setExternalId(externalId);
+        var account = new Account(externalId);
 
         account = accountRepository.save(account);
 

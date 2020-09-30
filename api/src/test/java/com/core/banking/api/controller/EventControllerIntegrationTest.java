@@ -1,7 +1,10 @@
 package com.core.banking.api.controller;
 
+import com.core.banking.business.model.Account;
+import com.core.banking.business.model.TransactionType;
+import com.core.banking.business.repository.AccountRepository;
+import com.core.banking.business.repository.TransactionRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -12,8 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.math.BigDecimal;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,15 +28,22 @@ public class EventControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Before
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    @BeforeEach
     void setUp() {
-        //reset application
+        transactionRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @Test
     void whenPostDepositEventThenSaveEventAndReturnCreated() throws Exception {
 
-        var request = "{\"type\":\"deposit\", \"destination\":\"100\", \"amount\":10}";
+        var request = "{\"type\":\"DEPOSIT\", \"destination\":\"100\", \"amount\":10}";
 
         var result = mockMvc.perform(
                 post("/event")
@@ -54,7 +64,11 @@ public class EventControllerIntegrationTest {
     @Test
     void whenPostWithdrawEventFromExistingAccountThenSaveEventAndReturnCreated() throws Exception {
 
-        //initialize account
+        var externalId = "100";
+        var account = new Account(externalId);
+        account.addTransaction(TransactionType.CREDIT, BigDecimal.valueOf(20));
+
+        accountRepository.save(account);
 
         var request = "{\"type\":\"withdraw\", \"origin\":\"100\", \"amount\":5}";
 
@@ -94,7 +108,11 @@ public class EventControllerIntegrationTest {
     @Test
     void whenPostTransferEventFromExistingAccountThenSaveEventAndReturnCreated() throws Exception {
 
-        //initialize account
+        var externalId = "100";
+        var account = new Account(externalId);
+        account.addTransaction(TransactionType.CREDIT, BigDecimal.valueOf(15));
+
+        accountRepository.save(account);
 
         var request = "{\"type\":\"transfer\", \"origin\":\"100\", \"amount\":15, \"destination\":\"300\"}";
 

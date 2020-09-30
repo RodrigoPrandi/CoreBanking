@@ -22,35 +22,29 @@ public class Transaction {
 
     private BigDecimal value;
 
-    public Long getId() {
-        return id;
+    @SuppressWarnings("unused")
+    Transaction() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    Transaction(Account account, TransactionType type, BigDecimal value) {
+        this.account = account;
+        this.type = type;
+        this.value = value;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Account getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public TransactionType getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
     public BigDecimal getValue() {
         return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
     }
 }

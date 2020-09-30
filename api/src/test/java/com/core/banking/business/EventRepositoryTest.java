@@ -1,13 +1,12 @@
 package com.core.banking.business;
 
 import com.core.banking.business.model.Account;
-import com.core.banking.business.model.Transaction;
 import com.core.banking.business.model.TransactionType;
 import com.core.banking.business.repository.AccountRepository;
 import com.core.banking.business.repository.TransactionRepository;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,7 +22,7 @@ public class EventRepositoryTest {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         accountRepository.deleteAll();
     }
@@ -31,18 +30,9 @@ public class EventRepositoryTest {
     @Test
     public void findAllByAccount() {
         var externalId = RandomString.make();
-        var account = new Account();
-        account.setExternalId(externalId);
-        var transaction = new Transaction();
-        transaction.setType(TransactionType.CREDIT);
-        transaction.setValue(BigDecimal.valueOf(100));
-
-        var transaction2 = new Transaction();
-        transaction2.setType(TransactionType.DEBIT);
-        transaction2.setValue(BigDecimal.valueOf(200));
-
-        account.addTransaction(transaction);
-        account.addTransaction(transaction2);
+        var account = new Account(externalId);
+        account.addTransaction(TransactionType.CREDIT, BigDecimal.valueOf(100));
+        account.addTransaction(TransactionType.DEBIT, BigDecimal.valueOf(200));
 
         account = accountRepository.save(account);
 

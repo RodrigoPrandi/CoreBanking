@@ -1,8 +1,11 @@
 package com.core.banking.business.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.core.banking.business.model.TransactionType.CREDIT;
 
 @Entity
 @Table(name="account")
@@ -21,27 +24,33 @@ public class Account {
     )
     private List<Transaction> transactions = new ArrayList<>();
 
-    public Long getId() {
-        return id;
+    @SuppressWarnings("unused")
+    Account() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Account(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
+    public void addTransaction(TransactionType transactionType, BigDecimal value) {
+        /*if(DEBIT.equals(transactionType) && getBalance().compareTo(value) >= 0 ) {
+            throw new InsufficientFound
+        }*/
+        transactions.add(new Transaction(this, transactionType, value));
     }
 
-    public void addTransaction(Transaction transaction) {
-        transactions.add(transaction);
-        transaction.setAccount(this);
-    }
-    public List<Transaction> getAllTransactions() {
-        return transactions;
+    public BigDecimal getBalance() {
+        return transactions
+                .stream()
+                .map(t -> CREDIT.equals(t.getType()) ? t.getValue() : t.getValue().negate())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

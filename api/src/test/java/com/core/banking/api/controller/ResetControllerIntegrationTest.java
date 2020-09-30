@@ -1,12 +1,10 @@
 package com.core.banking.api.controller;
 
 import com.core.banking.business.model.Account;
-import com.core.banking.business.model.Transaction;
 import com.core.banking.business.model.TransactionType;
 import com.core.banking.business.repository.AccountRepository;
 import com.core.banking.business.repository.TransactionRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,20 +50,12 @@ class ResetControllerIntegrationTest {
     }
 
     void setValuesDatabase() {
-        var account1 = new Account();
-        account1.setExternalId("");
-        var transaction1 = new Transaction();
-        transaction1.setValue(BigDecimal.TEN);
-        transaction1.setType(TransactionType.CREDIT);
-        account1.addTransaction(transaction1);
+        var account1 = new Account("3213");
+        account1.addTransaction(TransactionType.CREDIT, BigDecimal.TEN);
         accountRepository.save(account1);
 
-        var account2 = new Account();
-        account2.setExternalId("");
-        var transaction2 = new Transaction();
-        transaction2.setValue(BigDecimal.TEN);
-        transaction2.setType(TransactionType.CREDIT);
-        account1.addTransaction(transaction2);
+        var account2 = new Account("sdfasf");
+        account2.addTransaction(TransactionType.DEBIT, BigDecimal.ONE);
         accountRepository.save(account2);
     }
 }
